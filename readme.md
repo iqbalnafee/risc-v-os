@@ -69,6 +69,9 @@ sudo apt-get update && \
 sudo apt-get install -y qemu-system-misc opensbi clang lld
 
 
+# To free the memory
+`llvm-nm kernel.elf | grep __free_ram
+
 
 
 

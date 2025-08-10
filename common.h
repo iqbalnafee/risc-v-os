@@ -3,9 +3,9 @@ typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 typedef unsigned long long uint64_t;
-typedef uint32_t size_t;
-typedef uint32_t paddr_t;
-typedef uint32_t vaddr_t;
+typedef uint64_t size_t;
+typedef uint64_t paddr_t;
+typedef uint64_t vaddr_t;
 
 #define true  1
 #define false 0
@@ -17,6 +17,7 @@ typedef uint32_t vaddr_t;
 #define va_start __builtin_va_start
 #define va_end   __builtin_va_end
 #define va_arg   __builtin_va_arg
+#define PAGE_SIZE 4096
 
 void *memset(void *buf, char c, size_t n);
 void *memcpy(void *dst, const void *src, size_t n);

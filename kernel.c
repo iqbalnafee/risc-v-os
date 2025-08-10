@@ -2,6 +2,8 @@
 #include "common.h"
 
 extern char __bss[], __bss_end[], __stack_top[];
+extern char __free_ram[], __free_ram_end[];
+
 /* entry stub: set SP then jump to kernel_main */
 __attribute__((naked, section(".text.boot")))
 void kernel_entry(void) {
@@ -33,19 +35,37 @@ void putchar(char ch) {
     (void)sbi_call((long)(unsigned char)ch, 0,0,0,0,0, 0, 1);
 }
 
+paddr_t alloc_pages(uint32_t n) {
+    static paddr_t next_paddr = (paddr_t) __free_ram;
+    paddr_t paddr = next_paddr;
+    next_paddr += n * PAGE_SIZE;
 
+    if (next_paddr > (paddr_t) __free_ram_end)
+        PANIC("out of memory");
+
+    memset((void *) paddr, 0, n * PAGE_SIZE);
+    return paddr;
+}
 
 void kernel_main(void) {
-    printf("\n\nHello %s\n", "World!");
+    /*printf("\n\nHello %s\n", "World!");
     printf("1 + 2 = %d, %x\n", 1 + 2, 0x1234abcd);
 
     for (;;) {
         __asm__ __volatile__("wfi"); // wait for interrupt
-    }
+    }*/
     
     // panic
     /*memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
 
     PANIC("booted!");
     printf("unreachable here!\n");*/
+    memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
+
+    paddr_t paddr0 = alloc_pages(2);
+    paddr_t paddr1 = alloc_pages(1);
+    printf("alloc_pages test: paddr0=%x\n", paddr0);
+    printf("alloc_pages test: paddr1=%x\n", paddr1);
+
+    PANIC("booted!");
 }
