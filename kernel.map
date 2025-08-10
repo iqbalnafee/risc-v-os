@@ -1,7 +1,7 @@
              VMA              LMA     Size Align Out     In      Symbol
                0                0 80200000     1 . = 0x80200000
         80200000         80200000      30a     4 .text
-        80200000         80200000        c     2         /tmp/kernel-429b5a.o:(.text.boot)
+        80200000         80200000        c     2         /tmp/kernel-d0a85e.o:(.text.boot)
         80200000         80200000        0     1                 
         80200000         80200000        0     1                 
         80200000         80200000        0     1                 
@@ -10,7 +10,7 @@
         80200000         80200000        c     1                 kernel_entry
         8020000c         8020000c        0     1                 
         8020000c         8020000c        0     1                 
-        8020000c         8020000c       50     4         /tmp/kernel-429b5a.o:(.text)
+        8020000c         8020000c       50     4         /tmp/kernel-d0a85e.o:(.text)
         8020000c         8020000c        0     1                 
         8020000c         8020000c        0     1                 
         8020000c         8020000c        0     1                 
@@ -37,7 +37,7 @@
         8020005a         8020005a        0     1                 
         8020005c         8020005c        0     1                 
         8020005c         8020005c        0     1                 
-        8020005c         8020005c      2ae     4         /tmp/common-0a94a6.o:(.text)
+        8020005c         8020005c      2ae     4         /tmp/common-90557b.o:(.text)
         8020005c         8020005c        0     1                 
         8020005c         8020005c        0     1                 
         8020005c         8020005c        0     1                 
@@ -203,49 +203,49 @@
         80200350         80200350    20000     1 . += 128 * 1024
         80220350         80220350        0     1 __stack_top = .
                0                0      250     1 .debug_loclists
-               0                0       22     1         /tmp/kernel-429b5a.o:(.debug_loclists)
+               0                0       22     1         /tmp/kernel-d0a85e.o:(.debug_loclists)
                c                c        0     1                 
-              22               22      22e     1         /tmp/common-0a94a6.o:(.debug_loclists)
+              22               22      22e     1         /tmp/common-90557b.o:(.debug_loclists)
               2e               2e        0     1                 
                0                0      272     1 .debug_abbrev
-               0                0      11f     1         /tmp/kernel-429b5a.o:(.debug_abbrev)
-             11f              11f      153     1         /tmp/common-0a94a6.o:(.debug_abbrev)
+               0                0      11f     1         /tmp/kernel-d0a85e.o:(.debug_abbrev)
+             11f              11f      153     1         /tmp/common-90557b.o:(.debug_abbrev)
                0                0      3e9     1 .debug_info
-               0                0      19a     1         /tmp/kernel-429b5a.o:(.debug_info)
-             19a              19a      24f     1         /tmp/common-0a94a6.o:(.debug_info)
+               0                0      19a     1         /tmp/kernel-d0a85e.o:(.debug_info)
+             19a              19a      24f     1         /tmp/common-90557b.o:(.debug_info)
                0                0       69     1 .debug_rnglists
-               0                0       17     1         /tmp/kernel-429b5a.o:(.debug_rnglists)
+               0                0       17     1         /tmp/kernel-d0a85e.o:(.debug_rnglists)
                c                c        0     1                 
-              17               17       52     1         /tmp/common-0a94a6.o:(.debug_rnglists)
+              17               17       52     1         /tmp/common-90557b.o:(.debug_rnglists)
               23               23        0     1                 
                0                0      124     1 .debug_str_offsets
-               0                0       84     1         /tmp/kernel-429b5a.o:(.debug_str_offsets)
+               0                0       84     1         /tmp/kernel-d0a85e.o:(.debug_str_offsets)
                8                8        0     1                 
-              84               84       a0     1         /tmp/common-0a94a6.o:(.debug_str_offsets)
+              84               84       a0     1         /tmp/common-90557b.o:(.debug_str_offsets)
               8c               8c        0     1                 
-               0                0      1b5     1 .debug_str
-               0                0      1b5     1         <internal>:(.debug_str)
+               0                0      1b7     1 .debug_str
+               0                0      1b7     1         <internal>:(.debug_str)
                0                0       98     1 .debug_addr
-               0                0       30     1         /tmp/kernel-429b5a.o:(.debug_addr)
+               0                0       30     1         /tmp/kernel-d0a85e.o:(.debug_addr)
                8                8        0     1                 
-              30               30       68     1         /tmp/common-0a94a6.o:(.debug_addr)
+              30               30       68     1         /tmp/common-90557b.o:(.debug_addr)
               38               38        0     1                 
                0                0       42     1 .comment
                0                0       42     1         <internal>:(.comment)
                0                0       2b     1 .riscv.attributes
-               0                0       2b     1         /tmp/kernel-429b5a.o:(.riscv.attributes)
+               0                0       2b     1         /tmp/kernel-d0a85e.o:(.riscv.attributes)
                0                0      100     8 .debug_frame
-               0                0       68     8         /tmp/kernel-429b5a.o:(.debug_frame)
+               0                0       68     8         /tmp/kernel-d0a85e.o:(.debug_frame)
                0                0        0     1                 
-              68               68       98     8         /tmp/common-0a94a6.o:(.debug_frame)
+              68               68       98     8         /tmp/common-90557b.o:(.debug_frame)
               68               68        0     1                 
                0                0      519     1 .debug_line
-               0                0       dc     1         /tmp/kernel-429b5a.o:(.debug_line)
+               0                0       dc     1         /tmp/kernel-d0a85e.o:(.debug_line)
                0                0        0     1                 .Lline_table_start0
-              dc               dc      43d     1         /tmp/common-0a94a6.o:(.debug_line)
+              dc               dc      43d     1         /tmp/common-90557b.o:(.debug_line)
               dc               dc        0     1                 .Lline_table_start0
-               0                0       4a     1 .debug_line_str
-               0                0       4a     1         <internal>:(.debug_line_str)
+               0                0       4c     1 .debug_line_str
+               0                0       4c     1         <internal>:(.debug_line_str)
                0                0     19f8     8 .symtab
                0                0     19f8     8         <internal>:(.symtab)
                0                0       d6     1 .shstrtab
