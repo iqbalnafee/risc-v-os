@@ -34,7 +34,6 @@ SECTIONS {
   __stack_top = .;
   
   
-  /*the memory regions to be managed by the allocator*/
   . = ALIGN(4096);
     __free_ram = .;
     . += 64 * 1024 * 1024; /* 64MB */
