@@ -100,6 +100,47 @@ paddr_t alloc_pages(uint32_t n) {
     return paddr;
 }
 
+
+struct process procs[PROCS_MAX]; // All process control structures.
+
+struct process *create_process(uint64_t pc) {
+    // Find an unused process control structure.
+    struct process *proc = NULL;
+    int i;
+    for (i = 0; i < PROCS_MAX; i++) {
+        if (procs[i].state == PROC_UNUSED) {
+            proc = &procs[i];
+            break;
+        }
+    }
+
+    if (!proc)
+        PANIC("no free process slots");
+
+    // Stack callee-saved registers. These register values will be restored in
+    // the first context switch in switch_context.
+    uint64_t *sp = (uint64_t *) &proc->stack[sizeof(proc->stack)];
+    *--sp = 0;                      // s11
+    *--sp = 0;                      // s10
+    *--sp = 0;                      // s9
+    *--sp = 0;                      // s8
+    *--sp = 0;                      // s7
+    *--sp = 0;                      // s6
+    *--sp = 0;                      // s5
+    *--sp = 0;                      // s4
+    *--sp = 0;                      // s3
+    *--sp = 0;                      // s2
+    *--sp = 0;                      // s1
+    *--sp = 0;                      // s0
+    *--sp = (uint64_t) pc;          // ra
+
+    // Initialize fields.
+    proc->pid = i + 1;
+    proc->state = PROC_RUNNABLE;
+    proc->sp = (uint64_t) sp;
+    return proc;
+}
+
 void delay(void) {
     for (int i = 0; i < 30000000; i++)
         __asm__ __volatile__("nop"); // do nothing
@@ -108,12 +149,37 @@ void delay(void) {
 struct process *proc_a;
 struct process *proc_b;
 
+
+struct process *current_proc; // Currently running process
+struct process *idle_proc;    // Idle process
+
+/*The word "yield" is often used as the name for an API which allows giving up the CPU to another process voluntarily.*/
+void yield(void) {
+    // Search for a runnable process
+    struct process *next = idle_proc;
+    for (int i = 0; i < PROCS_MAX; i++) {
+        struct process *proc = &procs[(current_proc->pid + i) % PROCS_MAX];
+        if (proc->state == PROC_RUNNABLE && proc->pid > 0) {
+            next = proc;
+            break;
+        }
+    }
+
+    // If there's no runnable process other than the current one, return and continue processing
+    if (next == current_proc)
+        return;
+
+    // Context switch
+    struct process *prev = current_proc;
+    current_proc = next;
+    switch_context(&prev->sp, &next->sp);
+}
+
 void proc_a_entry(void) {
     printf("starting process A\n");
     while (1) {
         putchar('A');
-        switch_context(&proc_a->sp, &proc_b->sp);
-        delay();
+        yield();
     }
 }
 
@@ -121,24 +187,25 @@ void proc_b_entry(void) {
     printf("starting process B\n");
     while (1) {
         putchar('B');
-        switch_context(&proc_b->sp, &proc_a->sp);
-        delay();
+        yield();
     }
 }
 
-
-
 void kernel_main(void) {
-    // zero BSS
-    memset(__bss, 0, (size_t)(__bss_end - __bss));
+    memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
 
-    
-    WRITE_CSR(stvec, (uint32_t) kernel_entry);
+    printf("\n\n");
 
-    proc_a = create_process((uint32_t) proc_a_entry);
-    proc_b = create_process((uint32_t) proc_b_entry);
-    proc_a_entry();
+    WRITE_CSR(stvec, (uint64_t) kernel_entry);
 
-    PANIC("unreachable here!");
+    idle_proc = create_process((uint64_t) NULL);
+    idle_proc->pid = 0; // idle
+    current_proc = idle_proc;
+
+    proc_a = create_process((uint64_t) proc_a_entry);
+    proc_b = create_process((uint64_t) proc_b_entry);
+
+    yield();
+    PANIC("switched to idle process");
 }
 

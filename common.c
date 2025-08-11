@@ -86,43 +86,5 @@ int strcmp(const char *s1, const char *s2) {
 
 
 
-struct process procs[PROCS_MAX]; // All process control structures.
 
-struct process *create_process(uint32_t pc) {
-    // Find an unused process control structure.
-    struct process *proc = NULL;
-    int i;
-    for (i = 0; i < PROCS_MAX; i++) {
-        if (procs[i].state == PROC_UNUSED) {
-            proc = &procs[i];
-            break;
-        }
-    }
-
-    if (!proc)
-        PANIC("no free process slots");
-
-    // Stack callee-saved registers. These register values will be restored in
-    // the first context switch in switch_context.
-    uint32_t *sp = (uint32_t *) &proc->stack[sizeof(proc->stack)];
-    *--sp = 0;                      // s11
-    *--sp = 0;                      // s10
-    *--sp = 0;                      // s9
-    *--sp = 0;                      // s8
-    *--sp = 0;                      // s7
-    *--sp = 0;                      // s6
-    *--sp = 0;                      // s5
-    *--sp = 0;                      // s4
-    *--sp = 0;                      // s3
-    *--sp = 0;                      // s2
-    *--sp = 0;                      // s1
-    *--sp = 0;                      // s0
-    *--sp = (uint32_t) pc;          // ra
-
-    // Initialize fields.
-    proc->pid = i + 1;
-    proc->state = PROC_RUNNABLE;
-    proc->sp = (uint32_t) sp;
-    return proc;
-}
 
